@@ -1,0 +1,61 @@
+name: code-docker
+services:
+#  ts-sidecar:
+#    image: tailscale/tailscale:latest
+#    hostname: opencode
+#    environment:
+#      - TS_AUTHKEY=${TAILSCALE_AUTHKEY} #Generate in Tailscale Admin Console
+#      - TS_STATE_DIR=/var/lib/tailscale
+#    volumes:
+#      - tailscale-data:/var/lib/tailscale
+#      - /dev/net/tun:/dev/net/tun
+#    cap_add:
+#      - net_admin
+#      - sys_module
+#    restart: unless-stopped
+
+  code:
+    build: .
+    container_name: code
+#    deploy:
+#      resources:
+#        reservations:
+#          devices:
+#            - driver: nvidia
+#              count: all
+#              capabilities:
+#                - gpu
+    restart: unless-stopped
+#    network_mode: service:ts-sidecar
+    environment:
+      - TZ=Australia/Brisbane
+      - USER_PASSWORD=${USER_PASSWORD}
+      - API_SERVER_ENABLED=true
+      - API_SERVER_HOST=0.0.0.0
+      - API_SERVER_KEY=ashley_api
+      - API_SERVER_CORS_ORIGINS='*'
+      - HERMES_DASHBOARD=1
+      - HERMES_DASHBOARD_HOST-0.0.0.0
+      - HERMES_DASHBOARD_TUI=1
+    userns_mode: keep-id
+    volumes:
+      - ./workspace:/home/arch/workspace
+      - ./config/opencode:/home/arch/.config/opencode
+      - ./config/hermes:/home/arch/.hermes
+      - ./config/qwen:/home/arch/.qwen
+      - ./config/nvim:/home/arch/.config/nvim
+    ports:
+      - "2222:22"
+      - "8642:8642"
+      - "9119:9119"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+#    depends_on:
+#      - ts-sidecar
+
+#volumes:
+#  tailscale-data:
+
+
