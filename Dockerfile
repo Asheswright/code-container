@@ -19,6 +19,8 @@ RUN pacman -Syu --noconfirm openssh \
     gum eza bat asciinema \
     #Install fonts
     nerd-fonts \
+    # Utils
+    lychee pandoc-cli typst d2 jq yq yt-dlp ddgr \
     # Tools
     obsidian opencode
 
@@ -30,6 +32,8 @@ USER aur
 
 #install aur packages now there is a user setup.
 RUN paru -Sy --noconfirm qwen-code-bin
+RUN paru -Sy --noconfirm forgejo-mcp-bin
+RUN paru -Sy --noconfirm kimi-code
 
 USER root
 

@@ -43,11 +43,13 @@ services:
       - ./config/opencode:/home/arch/.config/opencode
       - ./config/hermes:/home/arch/.hermes
       - ./config/qwen:/home/arch/.qwen
+      - ./config/kimi:/home/arch/.kimi-code
       - ./config/nvim:/home/arch/.config/nvim
     ports:
       - "2222:22"
       - "8642:8642"
       - "9119:9119"
+      - "58627:58627"
     logging:
       options:
         max-size: "10m"
